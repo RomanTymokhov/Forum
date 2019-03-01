@@ -14,11 +14,11 @@ namespace Forum.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMailService mailService)
+        public AccountController(IMailService mailService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
+            this.mailService = mailService;
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.mailService = mailService;
         }
 
         [HttpGet]
