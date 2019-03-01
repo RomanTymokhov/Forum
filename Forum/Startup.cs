@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Forum.Domain.Services;
 using Forum.Models.Account;
 using Forum.Persistance.Contexts;
+using Forum.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,6 +43,8 @@ namespace Forum
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<ForumContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<IMailService, MailService>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

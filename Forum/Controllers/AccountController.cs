@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Forum.Models.Account;
-using Forum.Models.ViewModels;
-using Forum.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Forum.Models.ViewModels;
+using Forum.Domain.Services;
+using Forum.Models.Account;
 
 namespace Forum.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IMailService mailService;
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMailService mailService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.mailService = mailService;
         }
 
         [HttpGet]
@@ -42,9 +41,9 @@ namespace Forum.Controllers
                     string callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
-                        new { userId = user.Id, code = code },
+                        new { userId = user.Id, code },
                         protocol: HttpContext.Request.Scheme);
-                    var mailService = new MailService();
+
                     await mailService.SendEmailAsync(model.Email, "Confirm your account",
                         $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
 

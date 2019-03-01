@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Forum.Models.Account;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Forum.Persistance.Contexts
 {
-    public class ForumContext : IdentityDbContext<IdentityUser>
+    public class ForumContext : IdentityDbContext<AppUser>
     {
         public ForumContext(DbContextOptions<ForumContext> options)
         : base(options)
@@ -20,6 +16,7 @@ namespace Forum.Persistance.Contexts
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<AppUser>().ToTable("AspNetUsers");
         }
     }
 }
