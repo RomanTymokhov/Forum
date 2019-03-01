@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Forum.Models.ViewModels;
 using Forum.Domain.Services;
 using Forum.Models.Account;
+using Forum.Domain.Repositories;
+using System;
 
 namespace Forum.Controllers
 {

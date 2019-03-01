@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Forum.Domain.Repositories;
 using Forum.Domain.Services;
 using Forum.Models.Account;
 using Forum.Persistance.Contexts;
+using Forum.Persistance.Repositories;
 using Forum.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +47,7 @@ namespace Forum
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IMailService, MailService>();
+            services.AddScoped<IUpdateRepo, UpdateRepo>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
