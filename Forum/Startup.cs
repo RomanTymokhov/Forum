@@ -39,7 +39,8 @@ namespace Forum
             });
 
             services.AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<ForumContext>();
+                .AddEntityFrameworkStores<ForumContext>()
+                .AddDefaultTokenProviders();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -11,19 +11,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Controllers
 {
-    public class AcountController : Controller
+    public class AccountController : Controller
     {
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
 
-        public AcountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Register()
         {
             return View();
         }
