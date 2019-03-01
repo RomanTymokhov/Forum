@@ -1,4 +1,5 @@
-﻿using MailKit.Net.Smtp;
+﻿using Forum.Domain.Services;
+using MailKit.Net.Smtp;
 using MimeKit;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Forum.Services
 {
-    public class MailService
+    public class MailService : IMailService
     {
         public async Task SendEmailAsync(string email, string subject, string message)
         {
