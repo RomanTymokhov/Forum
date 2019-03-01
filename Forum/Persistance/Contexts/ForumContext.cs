@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Forum.Persistance.Contexts
 {
-    public class AppContext : IdentityDbContext<IdentityUser>
+    public class ForumContext : IdentityDbContext<IdentityUser>
     {
-        public AppContext(DbContextOptions<AppContext> options)
+        public ForumContext(DbContextOptions<ForumContext> options)
         : base(options)
         {
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
