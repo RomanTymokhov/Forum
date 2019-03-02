@@ -77,7 +77,7 @@ namespace Forum.Controllers
             }
             var result = await userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
-                return RedirectToAction("Themes", "Forum");
+                return RedirectToAction("Updates", "Forum");
             else
                 return View("Error");
         }
@@ -108,7 +108,7 @@ namespace Forum.Controllers
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Themes", "Forum");
+                    return RedirectToAction("Updates", "Forum");
                 }
                 else
                 {
