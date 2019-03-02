@@ -17,12 +17,17 @@ namespace Forum.Persistance.Repositories
             forumContext = context;
         }
 
-        public async Task<IEnumerable<Update>> ToListAsync() => await forumContext.ForumUpdates.ToListAsync();
+        public async Task<IList<Update>> ToListAsync() => 
+            await forumContext.ForumUpdates.ToListAsync();
+
+        public async Task<Update> ReturnUpdateAsync(string id) => 
+            await forumContext.ForumUpdates.FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task AddUpdateAsync(Update update)
         {
             await forumContext.ForumUpdates.AddAsync(update);
             await forumContext.SaveChangesAsync();
         }
+
     }
 }
