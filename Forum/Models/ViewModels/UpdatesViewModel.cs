@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Forum.Models.ViewModels
 {
-    public class ThemesViewModel
+    public class UpdatesViewModel
     {
-        public IEnumerable<Update> Themes { get; set; }
+        public IEnumerable<Update> UpdateList { get; set; }
     }
 }
