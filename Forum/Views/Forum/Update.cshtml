@@ -1,4 +1,12 @@
-﻿@model Forum.Models.ViewModels.UpdateViewModel
+﻿@model Forum.Models.Account.Update
 @{
-    ViewData["Title"] = "Theme";
+    ViewData["Title"] = "Topic";
 }
+
+<div class="container">
+    <div class="page-header">
+        <h1>@Model.Theme</h1>
+    </div>
+    <p>@Model.Message</p>
+    <button type="button" class="btn btn-info">Who create this theme : @Model.UserId</button>
+</div>

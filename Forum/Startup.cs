@@ -8,6 +8,7 @@ using Forum.Models.Account;
 using Forum.Persistance.Contexts;
 using Forum.Persistance.Repositories;
 using Forum.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,9 +43,18 @@ namespace Forum
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // connection configuration setting
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                });
+
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<ForumContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IMailService, MailService>();
             services.AddScoped<IUpdateRepo, UpdateRepo>();
@@ -69,6 +79,7 @@ namespace Forum
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

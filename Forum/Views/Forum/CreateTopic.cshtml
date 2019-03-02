@@ -1,0 +1,19 @@
+﻿@model Forum.Models.Account.Update
+@{
+    ViewData["Title"] = "Create Update";
+}
+
+<h2>Create Topic</h2>
+
+<form method="post" action="~/Forum/CreateTopic">
+    <input type="hidden" name="isTheme" value="true" />
+    <div class="input-group">
+        <span class="input-group-addon">Topic name</span>
+        <input id="thm" type="text" class="form-control" name="topicName" placeholder="Write you topic name">
+    </div><br />
+    <div class="input-group">
+        <span class="input-group-addon">Topic text</span>
+        <input id="msg" type="text" class="form-control" name="message" placeholder="Write yuo message">
+    </div><br />
+    <button type="button" class="btn btn-default" onclick="document.forms[0].submit()">Create</button>
+</form>

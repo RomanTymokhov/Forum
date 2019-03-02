@@ -7,6 +7,10 @@ using Forum.Domain.Services;
 using Forum.Models.Account;
 using Forum.Domain.Repositories;
 using System;
+using System.Security.Claims;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Forum.Controllers
 {
@@ -48,6 +52,9 @@ namespace Forum.Controllers
 
                     await mailService.SendEmailAsync(model.Email, "Confirm your account",
                         $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
+
+                    var newUser = await userManager.FindByEmailAsync(model.Email);
+                    await Authenticate(newUser);
 
                     return Content("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
                 }
@@ -103,13 +110,24 @@ namespace Forum.Controllers
                         ModelState.AddModelError(string.Empty, "You have not confirmed your email");
                         return View(model);
                     }
+
+                    await Authenticate(user);
                 }
 
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Updates", "Forum");
+                    //check if the URL belongs to the application
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Updates", "Forum");
+                    }
+                    //return RedirectToAction("Updates", "Forum");
                 }
                 else
                 {
@@ -123,9 +141,21 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOut()
         {
-            // удаляем аутентификационные куки
+            // delete authentication cookies
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        private async Task Authenticate(AppUser user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Id)
+            };
+            var userIdentity = new ClaimsIdentity(claims, "login");
+            var principal = new ClaimsPrincipal(userIdentity);
+
+            await HttpContext.SignInAsync(principal);
         }
     }
 }
