@@ -1,0 +1,18 @@
+﻿@model Forum.Models.ViewModels.ThemeViewModel
+
+@foreach (var item in @Model.Themes)
+{
+    <ul class="nav nav-pills nav-stacked" style="margin-top:15px">
+        <li>
+            <div class="container">
+                <div class="jumbotron">
+                    <h2>@item.Theme</h2>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary">userId : @item.UserId</button>
+                        <button type="button" class="btn btn-primary">Read the theme</button>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+}

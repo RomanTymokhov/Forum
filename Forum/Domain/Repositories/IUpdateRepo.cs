@@ -8,6 +8,7 @@ namespace Forum.Domain.Repositories
 {
     public interface IUpdateRepo
     {
-        Task AddUpdate(Update update);
+        Task AddUpdateAsync(Update update);
+        Task<IEnumerable<Update>> ToListAsync();
     }
 }
