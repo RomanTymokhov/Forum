@@ -5,6 +5,6 @@ namespace Forum.Models.ViewModels
 {
     public class UpdatesViewModel
     {
-        public IEnumerable<Update> UpdateList { get; set; }
+        public IList<Update> UpdateList { get; set; }
     }
 }
