@@ -120,7 +120,7 @@ namespace Forum.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
+        public async Task<IActionResult> LogOut()
         {
             // удаляем аутентификационные куки
             await signInManager.SignOutAsync();

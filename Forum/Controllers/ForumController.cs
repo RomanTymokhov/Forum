@@ -24,9 +24,9 @@ namespace Forum.Controllers
 
         public async Task<IActionResult> Themes()
         {
-            var tvm = new ThemeViewModel { Themes = await updateRepo.ToListAsync() };
+            var tvm = new ThemesViewModel { Themes = await updateRepo.ToListAsync() };
 
-            return View(new ThemeViewModel { Themes = await updateRepo.ToListAsync() });
+            return View(new ThemesViewModel { Themes = await updateRepo.ToListAsync() });
         }
     }
 }
