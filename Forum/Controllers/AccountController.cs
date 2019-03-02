@@ -97,22 +97,23 @@ namespace Forum.Controllers
                 var user = await userManager.FindByNameAsync(model.Email);
                 if (user != null)
                 {
-                    // проверяем, подтвержден ли email
+                    // check if email is confirmed
                     if (!await userManager.IsEmailConfirmedAsync(user))
                     {
-                        ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
+                        ModelState.AddModelError(string.Empty, "You have not confirmed your email");
                         return View(model);
                     }
                 }
 
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Updates", "Forum");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError("", "Incorrect username and / or password");
                 }
             }
             return View(model);
