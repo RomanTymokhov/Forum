@@ -1,16 +1,13 @@
 ﻿using System.Threading.Tasks;
+using System.Security.Claims;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 using Forum.Models.ViewModels;
 using Forum.Domain.Services;
 using Forum.Models.Account;
-using Forum.Domain.Repositories;
-using System;
-using System.Security.Claims;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Forum.Controllers
 {
@@ -42,7 +39,7 @@ namespace Forum.Controllers
                 
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
-                {   //token generation                 
+                {   //email token generation                 
                     string code = await userManager.GenerateEmailConfirmationTokenAsync(user);
                     string callbackUrl = Url.Action(
                         "ConfirmEmail",
@@ -51,12 +48,12 @@ namespace Forum.Controllers
                         protocol: HttpContext.Request.Scheme);
 
                     await mailService.SendEmailAsync(model.Email, "Confirm your account",
-                        $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
+                        $"Confirm the registration by clicking : <a href='{callbackUrl}'>on this link</a>");
 
                     var newUser = await userManager.FindByEmailAsync(model.Email);
                     await Authenticate(newUser);
 
-                    return Content("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
+                    return Content("<h2>To complete the registration, check the email and click on the link indicated in the letter.</h2>");
                 }
                 else
                 {

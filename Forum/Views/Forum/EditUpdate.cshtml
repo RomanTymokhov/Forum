@@ -1,0 +1,14 @@
+﻿@model Forum.Models.Account.Update
+@{
+    ViewData["Title"] = "Edit Update";
+}
+<h2>Update Message</h2>
+<br />
+<div class="form-group">
+    <label for="comment">Updating Message:</label>
+    <textarea class="form-control" rows="5" id="comment" required form="eu" name="message">@Model.Message</textarea>
+    <form method="post" action="~/Forum/EditUpdate2" id="eu">
+        <input type="hidden" name="id" value="@Model.Id" /><br />
+        <button type="submit" class="btn btn-primary btn-md">Submit</button>
+    </form>
+</div>

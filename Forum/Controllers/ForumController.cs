@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Forum.Domain.Repositories;
 using Forum.Models.Account;
 using Forum.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Forum.Controllers
 {
@@ -26,26 +27,32 @@ namespace Forum.Controllers
         {
             return View();
         }
-
+        
         public async Task<IActionResult> Updates()
         {
-            var updLst = await updateRepo.GetThemeListAsync();
-            return View(new UpdatesViewModel { UpdateList = updLst });
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var updLst = await updateRepo.GetTopicsAsync();
+                return View(new UpdatesViewModel { UpdateList = updLst });
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
-        //[HttpGet]
+        [Authorize]
         public async Task<IActionResult> Update(string id)
         {
-            var updLst = await updateRepo.GetConcreteThemeListAsync(id);
+            var updLst = await updateRepo.GetConcreteTopicAsync(id);
             return View(new UpdatesViewModel { UpdateList = updLst });
         }
 
+        [Authorize]
         public IActionResult CreateUpdate()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateUpdate(string topicName, string message, bool isTheme, string themeId)
         {
             var user = await userManager.GetUserAsync(HttpContext.User);
@@ -66,11 +73,32 @@ namespace Forum.Controllers
             return RedirectToAction("UpdateInfo", new { id = updateId.ToString() });
         }
 
+        [Authorize]
         public async Task<IActionResult> UpdateInfo(string id)
         {
             var updt = await updateRepo.GetUpdateAsync(id);
 
             return View(updt);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> EditUpdate(string id)
+        {
+            var updt = await updateRepo.GetUpdateAsync(id);
+
+            return View(updt);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> EditUpdate2(string id, string message)
+        {
+            var updt = await updateRepo.GetUpdateAsync(id);
+            updt.Message = message;
+            await updateRepo.EditUpdateAsync(updt);
+
+            return RedirectToAction("UpdateInfo", new { id = updt.Id });
         }
     }
 }

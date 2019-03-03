@@ -18,7 +18,7 @@
         <input type="hidden" name="themeId" value="@Model.UpdateList.FirstOrDefault(u => u.IsTheme == true).ThemeId">
         <div class="input-group">
             <span class="input-group-addon">Comment</span>
-            <input id="msg" type="text" class="form-control" name="message" placeholder="Write yuo message">
+            <input id="msg" type="text" class="form-control" name="message" placeholder="Write you message">
         </div><br />
         <button type="button" class="btn btn-primary" onclick="document.forms[0].submit()">Send</button>
     </form>
@@ -35,6 +35,11 @@
                 <li>
                     <div class="well well-lg">
                         <span>@item.Message</span>
+                        <form method="get" action="~/Forum/EditUpdate">
+                            <input type="hidden" name="Id" value="@item.Id" /><br/>
+                            <button type="submit" class="btn btn-default btn-xs">Edit</button>
+                            <span style="margin-left:7px">Author : @item.Id</span>
+                        </form>
                     </div>
                 </li>
             }

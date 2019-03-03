@@ -20,10 +20,10 @@ namespace Forum.Persistance.Repositories
         public async Task<IList<Update>> ToListAsync() => 
             await forumContext.ForumUpdates.ToListAsync();
 
-        public async Task<IList<Update>> GetThemeListAsync() =>
+        public async Task<IList<Update>> GetTopicsAsync() =>
             await forumContext.ForumUpdates.Where(u => u.IsTheme).ToListAsync();
 
-        public async Task<IList<Update>> GetConcreteThemeListAsync(string id) =>
+        public async Task<IList<Update>> GetConcreteTopicAsync(string id) =>
             await forumContext.ForumUpdates.Where(u => u.ThemeId == id).ToListAsync();
 
         public async Task<Update> GetUpdateAsync(string id) => 
@@ -35,5 +35,10 @@ namespace Forum.Persistance.Repositories
             await forumContext.SaveChangesAsync();
         }
 
+        public async Task EditUpdateAsync(Update update)
+        {
+            forumContext.Update(update);
+            await forumContext.SaveChangesAsync();
+        }
     }
 }
