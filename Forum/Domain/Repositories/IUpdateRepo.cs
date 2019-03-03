@@ -8,10 +8,10 @@ namespace Forum.Domain.Repositories
 {
     public interface IUpdateRepo
     {
-        Task<Update> ReturnUpdateAsync(string id);
+        Task<Update> GetUpdateAsync(string id);
         Task AddUpdateAsync(Update update);
         Task<IList<Update>> ToListAsync();
-        Task<IList<Update>> ThemeListAsync(string id);
-        Task<IList<Update>> ConcreteThemeListAsync(string id);
+        Task<IList<Update>> GetThemeListAsync();
+        Task<IList<Update>> GetConcreteThemeListAsync(string id);
     }
 }

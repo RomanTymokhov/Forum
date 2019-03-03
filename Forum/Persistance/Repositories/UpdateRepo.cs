@@ -20,13 +20,13 @@ namespace Forum.Persistance.Repositories
         public async Task<IList<Update>> ToListAsync() => 
             await forumContext.ForumUpdates.ToListAsync();
 
-        public async Task<IList<Update>> ThemeListAsync(string id) =>
+        public async Task<IList<Update>> GetThemeListAsync() =>
             await forumContext.ForumUpdates.Where(u => u.IsTheme).ToListAsync();
 
-        public async Task<IList<Update>> ConcreteThemeListAsync(string id) =>
+        public async Task<IList<Update>> GetConcreteThemeListAsync(string id) =>
             await forumContext.ForumUpdates.Where(u => u.ThemeId == id).ToListAsync();
 
-        public async Task<Update> ReturnUpdateAsync(string id) => 
+        public async Task<Update> GetUpdateAsync(string id) => 
             await forumContext.ForumUpdates.FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task AddUpdateAsync(Update update)
