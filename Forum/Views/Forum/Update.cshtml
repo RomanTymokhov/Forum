@@ -1,12 +1,43 @@
-﻿@model Forum.Models.Account.Update
+﻿@model Forum.Models.ViewModels.UpdatesViewModel
 @{
     ViewData["Title"] = "Topic";
 }
 
 <div class="container">
     <div class="page-header">
-        <h1>@Model.Theme</h1>
+        <h1>@Model.UpdateList.FirstOrDefault(u => u.IsTheme == true).Theme</h1>
     </div>
-    <p>@Model.Message</p>
-    <button type="button" class="btn btn-info">Who create this theme : @Model.UserId</button>
+    <p>@Model.UpdateList.FirstOrDefault(u => u.IsTheme == true).Message</p>
+    <button type="button" class="btn btn-info">Author : @Model.UpdateList.FirstOrDefault(u => u.IsTheme == true).UserId</button>
 </div>
+<br />
+<div class="form-group" style="margin-left: 15px">
+    <form method="post" action="~/Forum/CreateUpdate">
+        <input type="hidden" name="isTheme" value="false" />
+        <input type="hidden" name="topicName" value="">
+        <input type="hidden" name="themeId" value="@Model.UpdateList.FirstOrDefault(u => u.IsTheme == true).ThemeId">
+        <div class="input-group">
+            <span class="input-group-addon">Comment</span>
+            <input id="msg" type="text" class="form-control" name="message" placeholder="Write yuo message">
+        </div><br />
+        <button type="button" class="btn btn-primary" onclick="document.forms[0].submit()">Send</button>
+    </form>
+</div>
+<br />
+<br />
+@if (@Model.UpdateList.Count > 1)
+{
+    @foreach (var item in @Model.UpdateList)
+    {
+        <ul style="list-style-type:none">
+            @if (!item.IsTheme)
+            {
+                <li>
+                    <div class="well well-lg">
+                        <span>@item.Message</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+}

@@ -1,0 +1,24 @@
+﻿@model Forum.Models.Account.Update
+@{
+    ViewData["Title"] = "Update Info";
+}
+<br/>
+<div class="panel panel-default">
+    <div class="panel-heading panel-success">
+        @if (Model.IsTheme)
+        {
+            <span>Topic Create Succeful</span>
+        }
+        else
+        {
+            <span>Message Create Succeful</span>
+        }
+    </div>
+    <div class="panel-body panel-default">
+        <span>@Model.Message</span>
+        <form method="get" action="~/Forum/Update">
+            <input type="hidden" name="Id" value="@Model.ThemeId" />
+            <button type="button" class="btn btn-link" onclick="document.forms[0].submit()">Read the theme</button>
+        </form>
+    </div>
+</div>

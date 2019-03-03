@@ -5,8 +5,9 @@
 
 <h2>Create Topic</h2>
 
-<form method="post" action="~/Forum/CreateTopic">
+<form method="post" action="~/Forum/CreateUpdate">
     <input type="hidden" name="isTheme" value="true" />
+    <input type="hidden" name="themeId" value="" />
     <div class="input-group">
         <span class="input-group-addon">Topic name</span>
         <input id="thm" type="text" class="form-control" name="topicName" placeholder="Write you topic name">

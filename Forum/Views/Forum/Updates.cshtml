@@ -3,7 +3,7 @@
     ViewData["Title"] = "Main Themes";
 }
 
-<button type="button" class="btn btn-success btn-block" onclick="location.href='/Forum/CreateTopic'" style="margin-top:15px; margin-bottom:15px; margin-left:15px; padding-left:20px">Create Topic</button>
+<button type="button" class="btn btn-success btn-block" onclick="location.href='/Forum/CreateUpdate'" style="margin-top:15px; margin-bottom:15px; margin-left:15px; padding-left:20px">Create Topic</button>
 
 @foreach (var item in @Model.UpdateList)
 {
@@ -12,8 +12,8 @@
             <div class="container">
                 <div class="jumbotron">
                     <h2>@item.Theme</h2>
-                    <form method="post" action="~/Forum/Update">
-                        <input type="hidden" name="Id" value="@item.Id" />
+                    <form method="get" action="~/Forum/Update">
+                        <input type="hidden" name="Id" value="@item.ThemeId" />
                     </form>
                     <div class="btn-group">
                         <button type="button" class="btn btn-info">userId : @item.UserId</button>

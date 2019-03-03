@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Forum.Domain.Repositories;
-using Forum.Models.Account;
-using Forum.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Forum.Domain.Repositories;
+using Forum.Models.Account;
+using Forum.Models.ViewModels;
 
 namespace Forum.Controllers
 {
@@ -32,40 +29,48 @@ namespace Forum.Controllers
 
         public async Task<IActionResult> Updates()
         {
-            return View(new UpdatesViewModel { UpdateList = await updateRepo.ToListAsync() });
+            var updLst = await updateRepo.GetThemeListAsync();
+            return View(new UpdatesViewModel { UpdateList = updLst });
         }
 
-        [HttpPost]
+        //[HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-            return View(await updateRepo.ReturnUpdateAsync(id));
+            var updLst = await updateRepo.GetConcreteThemeListAsync(id);
+            return View(new UpdatesViewModel { UpdateList = updLst });
         }
 
-        
-        public IActionResult CreateTopic()
+        public IActionResult CreateUpdate()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTopic(string topicName, string message, bool isTheme)
+        public async Task<IActionResult> CreateUpdate(string topicName, string message, bool isTheme, string themeId)
         {
             var user = await userManager.GetUserAsync(HttpContext.User);
             var updateId = Guid.NewGuid();
 
             var update = new Update
             {
-                Theme = topicName,
+                Theme = isTheme ? topicName : string.Empty,
                 Message = message,
                 IsTheme = isTheme,
                 Id = updateId.ToString(),
-                ThemeId = isTheme ? updateId.ToString() : string.Empty,
+                ThemeId = isTheme ? updateId.ToString() : themeId,
                 UserId = user.Id
             };
 
             await updateRepo.AddUpdateAsync(update);
 
-            return RedirectToAction("Updates", "Forum");
+            return RedirectToAction("UpdateInfo", new { id = updateId.ToString() });
+        }
+
+        public async Task<IActionResult> UpdateInfo(string id)
+        {
+            var updt = await updateRepo.GetUpdateAsync(id);
+
+            return View(updt);
         }
     }
 }
