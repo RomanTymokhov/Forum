@@ -5,16 +5,16 @@
 
 <h2>Create Topic</h2>
 
-<form method="post" action="~/Forum/CreateUpdate">
+<form method="post" action="~/Forum/CreateUpdate" id="cu">
     <input type="hidden" name="isTheme" value="true" />
     <input type="hidden" name="themeId" value="" />
     <div class="input-group">
         <span class="input-group-addon">Topic name</span>
         <input id="thm" type="text" class="form-control" name="topicName" placeholder="Write you topic name">
-    </div><br />
-    <div class="input-group">
-        <span class="input-group-addon">Topic text</span>
-        <input id="msg" type="text" class="form-control" name="message" placeholder="Write yuo message">
-    </div><br />
-    <button type="button" class="btn btn-default" onclick="document.forms[0].submit()">Create</button>
-</form>
+    </div>
+</form><br />
+<div class="form-group">
+    <label for="comment">Message:</label>
+    <textarea class="form-control" rows="3" name="message" required form="cu"></textarea>
+</div>
+<button type="button" class="btn btn-default" onclick="document.forms[0].submit()">Create</button>
