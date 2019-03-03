@@ -11,5 +11,7 @@ namespace Forum.Domain.Repositories
         Task<Update> ReturnUpdateAsync(string id);
         Task AddUpdateAsync(Update update);
         Task<IList<Update>> ToListAsync();
+        Task<IList<Update>> ThemeListAsync(string id);
+        Task<IList<Update>> ConcreteThemeListAsync(string id);
     }
 }
